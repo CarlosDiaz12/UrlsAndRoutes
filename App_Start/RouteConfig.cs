@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Routing.Constraints;
 using System.Web.Routing;
+using UrlsAndRoutes.Infrastructure;
 
 namespace UrlsAndRoutes
 {
@@ -13,56 +15,41 @@ namespace UrlsAndRoutes
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //Route myRoute = new Route("{controller}/{action}", , new MvcRouteHandler());
-            //routes.Add("myRoute", myRoute);
-
-            // Designating a Catchall Variable
-            // There is no upper limit to the number of segments that the URL pattern in this route will match
-            routes.MapRoute("MyRoute00", "{controller}/{action}/{id}/{*catchall}", new
-            {
-                controller = "Home",
-                action = "Index",
-                id = UrlParameter.Optional
-            },
-            // Specifying Namespace Resolution Order
-                new[] { "URLsAndRoutes.AdditionalControllers" }
-             );
-
-            // custom segments
-            routes.MapRoute("MyRoute", "{controller}/{action}/{id}",
+            // Using a Regular Expression to Constrain a Route
+            
+            routes.MapRoute("MyRoute", " { controller}/{ action}/{ id}/{ *catchall}",
                 new
-                {                    controller = "Home",
+                {
+                    controller = "Home",
                     action = "Index",
-                    id = "DefaultId"
-                });
+                    // Using a Built-in Type/Value Constraint - Combining Route Constraints
+                    /*
+                     id = new CompoundRouteConstraint(new IRouteConstraint[] { new AlphaRouteConstraint(), new MinLengthRouteConstraint(6) })
+                     */
+                    id = new RangeRouteConstraint(10, 20)
+                },
 
-            // optional parameter
-            // id = UrlParameter.Optional
-
-            // Aliasing a Controller and an Action
-            routes.MapRoute("ShopSchema2", "Shop/OldAction",
-                new { controller = "Home", action = "Index" });
-
-            // Mixing Static URL Segments and Default Values - replace "Shop" with "Home"
-            routes.MapRoute("ShopSchema", "Shop/{action}",
-                new { controller = "Home" });
-
-            routes.MapRoute("", "X{controller}/{action}");
-
-            routes.MapRoute("myRoute2", "{controller}/{action}",
-                new { controller = "Home", action = "Index" });
-
-            // static segments
-            routes.MapRoute("", "Public/{controller}/{action}",
-                new { controller = "Home", action = "Index" });
+                // Constraining a Route to a Specific Set of Segment Variable Values
+                new { 
+                    controller = "^H.*", action =  "^ Index$| ^About$",
+                    // Constraining a Route Based on an HTTP Method
+                    httpMethod = new HttpMethodConstraint("GET"),
+                    // Applying a Custom Constraint in a Route
+                    customConstraint = new UserAgentConstraint("Chrome")
+                },
+                new[] { "URLsAndRoutes.Controllers" });
 
 
-
-            //routes.MapRoute(
-            //    name: "Default",
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            //);
+            // Applying a Custom Constraint in a Route
+            /*
+             routes.MapRoute("ChromeRoute", "{*catchall}",
+                new { controller = "Home", action = "Index" },
+                new { customConstraint = new UserAgentConstraint("Chrome")
+                },
+                    new[] { "UrlsAndRoutes.AdditionalControllers" });
+             
+             
+             */
 
 
             // Using Multiple Routes to Control Namespace Resolution
