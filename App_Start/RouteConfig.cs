@@ -15,29 +15,19 @@ namespace UrlsAndRoutes
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // Using a Regular Expression to Constrain a Route
-            
-            routes.MapRoute("MyRoute", " { controller}/{ action}/{ id}/{ *catchall}",
-                new
-                {
-                    controller = "Home",
-                    action = "Index",
-                    // Using a Built-in Type/Value Constraint - Combining Route Constraints
-                    /*
-                     id = new CompoundRouteConstraint(new IRouteConstraint[] { new AlphaRouteConstraint(), new MinLengthRouteConstraint(6) })
-                     */
-                    id = new RangeRouteConstraint(10, 20)
-                },
+            // Enabling Attribute Routing
+            routes.MapMvcAttributeRoutes();
 
-                // Constraining a Route to a Specific Set of Segment Variable Values
-                new { 
-                    controller = "^H.*", action =  "^ Index$| ^About$",
-                    // Constraining a Route Based on an HTTP Method
-                    httpMethod = new HttpMethodConstraint("GET"),
-                    // Applying a Custom Constraint in a Route
-                    customConstraint = new UserAgentConstraint("Chrome")
-                },
-                new[] { "URLsAndRoutes.Controllers" });
+            routes.MapRoute("Default", "{controller}/{action}/{id}",
+            new
+            {
+                controller = "Home",
+                action = "Index",
+                id = UrlParameter.Optional
+            },
+            new[] { "UrlsAndRoutes.Controllers" });
+
+
 
 
             // Applying a Custom Constraint in a Route
@@ -47,8 +37,7 @@ namespace UrlsAndRoutes
                 new { customConstraint = new UserAgentConstraint("Chrome")
                 },
                     new[] { "UrlsAndRoutes.AdditionalControllers" });
-             
-             
+                         
              */
 
 
