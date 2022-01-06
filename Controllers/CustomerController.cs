@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace UrlsAndRoutes.Controllers
 {
-    [RoutePrefix("Users")]
+   [RoutePrefix("Users")]
     public class CustomerController : Controller
     {
         // GET: Customer
@@ -14,7 +14,7 @@ namespace UrlsAndRoutes.Controllers
          Prefixing the URL with ∼/ tells the MVC Framework that I don’t want the RoutePrefix attribute applied to the Index
             action method, which means that it will still be accessible through the URL /Test.
          */
-        [Route("∼/Test")]
+        [Route("~/Test")]
         public ActionResult Index()
         {
             ViewBag.Controller = "Customer";
