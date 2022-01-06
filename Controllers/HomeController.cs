@@ -15,6 +15,7 @@ namespace UrlsAndRoutes.Controllers
             ViewBag.Action = "Index";
             return View("ActionName");
         }
+
         // Defining a Default Value for an Action Method Parameter
         public ActionResult CustomVariable(string id = "DefaultId")
         {
@@ -23,5 +24,26 @@ namespace UrlsAndRoutes.Controllers
             ViewBag.CustomVariable = id;
             return View();
         }
+
+        // Generating an Outgoing URL
+        public ViewResult MyActionMethod()
+        {
+            string myActionUrl = Url.Action("Index", new { id = "MyID" });
+            string myRouteUrl = Url.RouteUrl(new
+            {
+                controller = "Home",
+                action = "Index"
+            });
+            //... do something with URLs...
+            return View();
+        }
+
+        // Redirecting to Another Action
+        // public RedirectToRouteResult MyActionMethod()
+        // {
+        //     return RedirectToAction("Index");
+       
+        // return RedirectToRoute(new { controller = "Home", action = "Index", id = "MyID" });
+        // }
     }
 }

@@ -23,7 +23,7 @@ namespace UrlsAndRoutes.Controllers
         }
 
         // Creating an Attribute Route with a Segment Variable
-        [Route("Add/{user}/{id:int}")]
+        [Route("Add/{user}/{id:int}", Name = "AddRoute")]
         public string Create(string user, int id)
         {
             return string.Format("User: {0}, ID: {1}", user, id);
