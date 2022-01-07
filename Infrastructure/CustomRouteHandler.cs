@@ -6,6 +6,7 @@ using System.Web.Routing;
 
 namespace UrlsAndRoutes.Infrastructure
 {
+    // Implementing the IRouteHandler Interface
     public class CustomRouteHandler : IRouteHandler
     {
         public IHttpHandler GetHttpHandler(RequestContext requestContext)

@@ -13,9 +13,12 @@ namespace UrlsAndRoutes
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.RouteExistingFiles = false;
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapMvcAttributeRoutes();
+
+            // Using a Custom Routing Handler
+
+            routes.Add(new Route("SayHello", new CustomRouteHandler()));
 
             //routes.MapRoute("NewRoute", "App/Do{action}",
             //        new { controller = "Home" });
