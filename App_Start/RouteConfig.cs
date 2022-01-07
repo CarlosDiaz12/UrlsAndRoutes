@@ -20,13 +20,16 @@ namespace UrlsAndRoutes
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapMvcAttributeRoutes();
 
+            // Using the IgnoreRoute Method
+            routes.IgnoreRoute("Content/{filename}.html");
+
             // A Route Whose URL Pattern Corresponds to a Disk File
-            routes.MapRoute("DiskFile", "Content/StaticContent.html",
-                        new
-                        {
-                            controller = "Customer",
-                            action = "List",
-                        });
+            //routes.MapRoute("DiskFile", "Content/StaticContent.html",
+            //            new
+            //            {
+            //                controller = "Customer",
+            //                action = "List",
+            //            });
 
             // Using a Custom Routing Handler
 
