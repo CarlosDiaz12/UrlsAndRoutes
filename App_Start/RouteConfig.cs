@@ -13,12 +13,24 @@ namespace UrlsAndRoutes
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+
+            // Enabling Route Evaluation Before File-Checking
+            routes.RouteExistingFiles = true;
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapMvcAttributeRoutes();
 
+            // A Route Whose URL Pattern Corresponds to a Disk File
+            routes.MapRoute("DiskFile", "Content/StaticContent.html",
+                        new
+                        {
+                            controller = "Customer",
+                            action = "List",
+                        });
+
             // Using a Custom Routing Handler
 
-            routes.Add(new Route("SayHello", new CustomRouteHandler()));
+            // routes.Add(new Route("SayHello", new CustomRouteHandler()));
 
             //routes.MapRoute("NewRoute", "App/Do{action}",
             //        new { controller = "Home" });
@@ -31,7 +43,9 @@ namespace UrlsAndRoutes
                         controller = "Home",
                         action = "Index",
                         id = UrlParameter.Optional
-                    });
+                    },
+                    // This change ensures that the controllers in the main project are given priority in resolving requests.
+                    new[] { "UrlsAndRoutes.Controllers" });
 
             // you can select a specific route to be used to generate an outgoing URL
             //routes.MapRoute("MyRoute", "{controller}/{action}");
